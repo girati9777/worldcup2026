@@ -46,7 +46,6 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .error-box p{color:var(--muted);font-size:13px;margin-bottom:14px;}
 .retry-btn{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:8px 20px;border-radius:6px;cursor:pointer;font-size:13px;}
 .retry-btn:hover{border-color:var(--gold);color:var(--gold);}
-/* SCORES */
 .scores-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:10px;margin-bottom:24px;}
 .score-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px;transition:border-color .2s;}
 .score-card.live-card{border-color:rgba(239,68,68,0.5);}
@@ -61,11 +60,13 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .team-abbr{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;}
 .score-ctr{display:flex;flex-direction:column;align-items:center;}
 .score-num{font-family:'Bebas Neue',sans-serif;font-size:34px;color:#fff;letter-spacing:4px;line-height:1;}
-.scorers-mini{margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.8;}
-.scorer-line{display:flex;gap:6px;align-items:baseline;}
-.scorer-line .minute{color:var(--gold);font-weight:600;min-width:28px;}
+.scorers-mini{margin-top:10px;padding-top:8px;border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.8;display:grid;grid-template-columns:1fr 1fr;gap:0 8px;}
+.scorers-col{padding:0 4px;}
+.scorers-col:first-child{border-right:1px solid var(--border);padding-right:8px;}
+.scorer-line{display:flex;gap:5px;align-items:baseline;flex-wrap:wrap;}
+.scorer-line .min{color:var(--gold);font-weight:600;min-width:26px;font-size:10px;}
+.scorer-line .name{color:var(--text);}
 .scorer-line .assist{color:var(--muted);font-size:10px;}
-/* STANDINGS */
 .groups-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;}
 .group-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
 .group-hdr{background:var(--surface2);padding:9px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
@@ -83,34 +84,32 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 .pts{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:#fff;}
 .wc{color:var(--green);font-weight:600;}
 .lc{color:var(--red);font-weight:600;}
-/* SCORERS */
 .scorers-list{display:flex;flex-direction:column;gap:9px;}
 .scorer-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 18px;display:flex;align-items:center;gap:14px;}
 .sc-rank{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--muted);line-height:1;width:34px;text-align:center;flex-shrink:0;}
 .sc-rank.gold{color:var(--gold);}
 .sc-rank.silver{color:#94a3b8;}
 .sc-rank.bronze{color:#cd7c35;}
-.sc-logo{width:34px;height:34px;object-fit:contain;flex-shrink:0;}
+.sc-logo{width:34px;height:34px;object-fit:contain;flex-shrink:0;border-radius:50%;}
 .sc-info{flex:1;min-width:0;}
 .sc-name{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:1px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .sc-team{font-size:11px;color:var(--muted);margin-top:2px;}
 .sc-assists{font-size:10px;color:var(--accent);margin-top:2px;}
 .sc-bar{margin-top:6px;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
 .sc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:2px;}
-.sc-right{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:2px;}
+.sc-right{display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:1px;}
 .sc-gnum{font-family:'Bebas Neue',sans-serif;font-size:38px;color:var(--gold);line-height:1;}
 .sc-glabel{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
-.sc-anum{font-family:'Barlow Condensed',sans-serif;font-size:13px;color:var(--accent);font-weight:600;}
+.sc-anum{font-family:'Barlow Condensed',sans-serif;font-size:12px;color:var(--accent);font-weight:600;}
 .footer{text-align:center;padding:20px 16px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);margin-top:36px;letter-spacing:1px;}
-@media(max-width:600px){.groups-grid,.scores-grid{grid-template-columns:1fr;}}
+@media(max-width:600px){.groups-grid,.scores-grid{grid-template-columns:1fr;}.scorers-mini{grid-template-columns:1fr;}.scorers-col:first-child{border-right:none;border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:4px;}}
 </style>
 </head>
 <body>
-
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <div class="hero-badge">ESPN · REAL-TIME · ฟรี 100%</div>
+      <div class="hero-badge">FOTMOB · REAL-TIME · ฟรี 100%</div>
       <div class="hero-title">WORLD CUP 2026</div>
       <div class="hero-sub">Canada · Mexico · United States · 11 มิ.ย. – 19 ก.ค.</div>
     </div>
@@ -121,13 +120,11 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     </div>
   </div>
 </div>
-
 <div class="nav-tabs">
   <button class="tab-btn active" onclick="showTab('scores',this)">⚽ ผลการแข่งขัน</button>
   <button class="tab-btn" onclick="showTab('standings',this)">📊 ตารางคะแนน</button>
   <button class="tab-btn" onclick="showTab('scorers',this)">🥇 ดาวซัลโว</button>
 </div>
-
 <div class="main">
   <div id="panel-scores" class="panel active">
     <div class="sec-head"><div class="sec-title">ผลการแข่งขัน</div><div class="sec-tag" id="scores-tag">LIVE</div></div>
@@ -142,11 +139,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
     <div id="scorers-content"><div class="loading-box"><div class="spinner"></div><div class="loading-text">กำลังดึงข้อมูล...</div></div></div>
   </div>
 </div>
-
-<div class="footer">ข้อมูล Real-Time จาก ESPN API · ฟรี 100% ไม่ต้อง Key · FIFA World Cup 2026™ · อัพเดทอัตโนมัติทุก 60 วินาที</div>
-
+<div class="footer">ข้อมูล Real-Time จาก FotMob · ฟรี 100% ไม่ต้อง Key · FIFA World Cup 2026™ · อัพเดทอัตโนมัติทุก 60 วินาที</div>
 <script>
-const BASE = 'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world';
+// FotMob World Cup 2026 league ID = 77 (FIFA World Cup)
+const FM = 'https://www.fotmob.com/api';
 
 function showTab(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -154,185 +150,123 @@ function showTab(name, btn) {
   document.getElementById('panel-' + name).classList.add('active');
   btn.classList.add('active');
 }
-
 function errBox(id, msg) {
   document.getElementById(id).innerHTML = `<div class="error-box"><h3>⚠️ โหลดไม่สำเร็จ</h3><p>${msg}</p><button class="retry-btn" onclick="loadAll()">ลองใหม่</button></div>`;
 }
-
-function groupLabel(e) {
-  const slug = e.season?.slug || e.seasonType?.name || '';
-  const note = e.competitions?.[0]?.notes?.[0]?.headline || '';
-  if (note.toLowerCase().includes('group')) return note.replace(/group/i,'กลุ่ม').trim();
-  const m = slug.match(/group-([a-l])/i);
-  return m ? 'กลุ่ม ' + m[1].toUpperCase() : 'World Cup';
+function timeStr() {
+  return new Date().toLocaleTimeString('th-TH',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit'});
 }
 
 // ===== SCORES =====
-// Cache for summary assist data: eventId -> { goalId/clock -> assistName }
-const assistCache = {};
-
-async function fetchSummaryAssists(eventId) {
-  if (assistCache[eventId]) return assistCache[eventId];
-  try {
-    // Use site.web.api.espn.com for full summary with keyEvents
-    const r = await fetch(`https://site.web.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${eventId}`);
-    const d = await r.json();
-    const map = {};
-    // keyEvents has goal/assist data with participants
-    const keyEvents = d.keyEvents || [];
-    keyEvents.forEach(ev => {
-      const isGoal = ev.scoringPlay === true ||
-        ['Goal','Penalty Goal','Header Goal','Penalty - Scored'].includes(ev.type?.text);
-      if (!isGoal) return;
-      const participants = ev.participants || [];
-      let scorer = '', assist = '';
-      participants.forEach(p => {
-        const role = (p.type?.text || p.type?.abbreviation || '').toLowerCase();
-        const name = p.athlete?.shortName || p.athlete?.displayName || '';
-        if (role === 'scorer' || role === 'g') scorer = name;
-        else if (role === 'assist' || role === 'a') { assist = name; }
-      });
-      // fallback: if 2 participants and no role detected
-      if (participants.length >= 1 && !scorer) {
-        scorer = participants[0].athlete?.shortName || participants[0].athlete?.displayName || '';
-      }
-      if (participants.length >= 2 && !assist) {
-        assist = participants[1].athlete?.shortName || participants[1].athlete?.displayName || '';
-      }
-      const clock = ev.clock?.displayValue || '';
-      if (scorer) map[scorer + '_' + clock] = assist;
-    });
-    // Also check plays array as fallback
-    if (!keyEvents.length) {
-      const plays = d.plays || [];
-      plays.filter(p => p.scoringPlay).forEach(ev => {
-        const participants = ev.participants || ev.athletes || [];
-        let scorer = '', assist = '';
-        participants.forEach(p => {
-          const role = (p.type?.text || p.role || '').toLowerCase();
-          const name = p.athlete?.shortName || p.shortName || '';
-          if (role === 'scorer' || role === 'athlete') scorer = name;
-          else if (role === 'assist') assist = name;
-        });
-        if (participants.length >= 2 && !assist) {
-          assist = participants[1].athlete?.shortName || '';
-        }
-        const clock = ev.clock?.displayValue || '';
-        if (scorer) map[scorer + '_' + clock] = assist;
-      });
-    }
-    assistCache[eventId] = map;
-    return map;
-  } catch { return {}; }
-}
-
 async function loadScores() {
   try {
-    const r = await fetch(`${BASE}/scoreboard`);
+    // FotMob league matches: leagueId=77 is FIFA World Cup
+    const r = await fetch(`${FM}/leagues?id=77&ccode3=THA`);
     const d = await r.json();
-    const events = d.events || [];
 
-    const live     = events.filter(e => e.status.type.state === 'in');
-    const done     = events.filter(e => e.status.type.completed);
-    const upcoming = events.filter(e => !e.status.type.completed && e.status.type.state !== 'in');
+    const allMatches = [];
+    const rounds = d.matches?.allMatches || [];
+    rounds.forEach(m => allMatches.push(m));
 
-    // Pre-fetch summaries for live + recent done matches (parallel)
-    const toFetch = [...live, ...[...done].reverse().slice(0,18)];
-    await Promise.allSettled(toFetch.map(e => fetchSummaryAssists(e.id)));
+    const live     = allMatches.filter(m => m.status?.ongoing);
+    const done     = allMatches.filter(m => m.status?.finished);
+    const upcoming = allMatches.filter(m => !m.status?.finished && !m.status?.ongoing);
 
-    document.getElementById('scores-tag').textContent =
-      `อัพเดท ${new Date().toLocaleTimeString('th-TH',{timeZone:'Asia/Bangkok',hour:'2-digit',minute:'2-digit'})} น.`;
+    // Fetch details for live + recent done (for scorers+assist)
+    const toDetail = [...live, ...[...done].reverse().slice(0,16)];
+    const detailMap = {};
+    await Promise.allSettled(
+      toDetail.map(m =>
+        fetch(`${FM}/data/matchDetails?matchId=${m.id}`)
+          .then(r => r.json())
+          .then(d => { detailMap[m.id] = d; })
+      )
+    );
 
+    document.getElementById('scores-tag').textContent = `อัพเดท ${timeStr()} น.`;
     let html = '';
 
     if (live.length) {
       html += `<div class="subsec">🔴 กำลังแข่งอยู่</div><div class="scores-grid">`;
-      live.forEach(e => { html += cardHtml(e); });
+      live.forEach(m => { html += cardHtml(m, detailMap[m.id]); });
       html += `</div>`;
     }
     if (upcoming.length) {
       html += `<div class="subsec">นัดต่อไป</div><div class="scores-grid">`;
-      upcoming.slice(0,10).forEach(e => { html += cardHtml(e); });
+      upcoming.slice(0,10).forEach(m => { html += cardHtml(m, null); });
       html += `</div>`;
     }
     if (done.length) {
       html += `<div class="subsec">ผลล่าสุด</div><div class="scores-grid">`;
-      [...done].reverse().slice(0,18).forEach(e => { html += cardHtml(e); });
+      [...done].reverse().slice(0,18).forEach(m => { html += cardHtml(m, detailMap[m.id]); });
       html += `</div>`;
     }
-
     document.getElementById('scores-content').innerHTML = html || '<p style="color:var(--muted);text-align:center;padding:40px">ไม่พบข้อมูล</p>';
   } catch(err) { errBox('scores-content', err.message); }
 }
 
-function cardHtml(e) {
-  const comp = e.competitions[0];
-  const home = comp.competitors.find(c => c.homeAway === 'home') || comp.competitors[0];
-  const away = comp.competitors.find(c => c.homeAway === 'away') || comp.competitors[1];
-  const isLive = e.status.type.state === 'in';
-  const isDone = e.status.type.completed;
+function cardHtml(m, detail) {
+  const home = m.home || {};
+  const away = m.away || {};
+  const isLive = m.status?.ongoing;
+  const isDone = m.status?.finished;
   const isUpcoming = !isDone && !isLive;
+  const homeLogo = home.imageUrl || `https://images.fotmob.com/image_resources/logo/teamlogo/${home.id}_small.png`;
+  const awayLogo = away.imageUrl || `https://images.fotmob.com/image_resources/logo/teamlogo/${away.id}_small.png`;
+  const round = m.roundName || m.tournamentName || 'World Cup';
 
-  // Score display
   let scoreHtml = '';
   if (isUpcoming) {
-    const dt = new Date(e.date);
-    const timeStr = dt.toLocaleString('th-TH',{timeZone:'Asia/Bangkok',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-    scoreHtml = `<div style="font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--muted);letter-spacing:2px;text-align:center">${timeStr}</div>`;
+    const dt = new Date(m.status?.utcTime || m.utcTime || '');
+    const ts = isNaN(dt) ? '' : dt.toLocaleString('th-TH',{timeZone:'Asia/Bangkok',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    scoreHtml = `<div style="font-family:'Bebas Neue',sans-serif;font-size:15px;color:var(--muted);letter-spacing:2px;text-align:center;">${ts}</div>`;
   } else {
-    scoreHtml = `<div class="score-num">${home.score||0} – ${away.score||0}</div>`;
+    const hs = home.score ?? (m.result?.homeScore ?? '-');
+    const as = away.score ?? (m.result?.awayScore ?? '-');
+    scoreHtml = `<div class="score-num">${hs} – ${as}</div>`;
   }
 
-  // Status badge
   let badge = '';
-  if (isLive) badge = `<span class="bg-live">🔴 ${e.status.displayClock||'LIVE'}</span>`;
+  if (isLive) badge = `<span class="bg-live">🔴 ${m.status?.liveTime?.short || 'LIVE'}</span>`;
   else if (isDone) badge = `<span class="bg-done">✓ จบแล้ว</span>`;
   else badge = `<span class="bg-soon">⏳ เร็วๆ นี้</span>`;
 
-  // Goal scorers from details
+  // Build scorers from detail.content.matchFacts.events.events
   let scorersHtml = '';
-  if (isDone || isLive) {
-    const details = comp.details || [];
-    const goals = details.filter(d => ['Goal','Penalty Goal','Header Goal','Penalty - Scored'].includes(d.type?.text));
+  if ((isDone || isLive) && detail) {
+    const events = detail.content?.matchFacts?.events?.events || [];
+    const goals = events.filter(e => e.type === 'Goal' && !e.ownGoal);
     if (goals.length) {
-      const hGoals = goals.filter(g => g.team?.id === home.team.id);
-      const aGoals = goals.filter(g => g.team?.id === away.team.id);
-      const eventId = e.id || comp.id;
-      const summaryMap = assistCache[eventId] || {};
+      const hGoals = goals.filter(g => g.isHome);
+      const aGoals = goals.filter(g => !g.isHome);
       const renderGoals = arr => arr.map(g => {
-        const scorer = g.athletesInvolved?.[0]?.shortName || g.athletesInvolved?.[0]?.displayName || '';
-        const min = g.clock?.displayValue ? g.clock.displayValue + "'" : '';
-        let assist = g.athletesInvolved?.[1]?.shortName || g.athletesInvolved?.[1]?.displayName || '';
-        if (!assist) {
-          const minClean = min.replace("'", '');
-          assist = summaryMap[scorer + '_' + minClean] || summaryMap[scorer + '_' + min] || '';
-        }
-        const aHtml = assist ? `<span class="assist"> (${assist})</span>` : '';
-        return `<div class="scorer-line"><span class="minute">${min}</span><span>⚽ ${scorer}${aHtml}</span></div>`;
+        const name = g.nameStr || g.fullName || '';
+        const min = g.timeStr ? g.timeStr + "'" : '';
+        const assist = g.assistInput || '';
+        const assistHtml = assist ? `<span class="assist">(${assist})</span>` : '';
+        return `<div class="scorer-line"><span class="min">${min}</span><span class="name">⚽ ${name}</span>${assistHtml}</div>`;
       }).join('');
-      const hHtml = hGoals.length ? renderGoals(hGoals) : '<div style="color:var(--border);font-size:10px">-</div>';
-      const aHtml2 = aGoals.length ? renderGoals(aGoals) : '<div style="color:var(--border);font-size:10px">-</div>';
-      scorersHtml = `<div class="scorers-mini" style="display:grid;grid-template-columns:1fr 1fr;gap:0 8px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);">
-        <div style="border-right:1px solid var(--border);padding-right:8px;">${hHtml}</div>
-        <div style="padding-left:8px;">${aHtml2}</div>
+      scorersHtml = `<div class="scorers-mini">
+        <div class="scorers-col">${hGoals.length ? renderGoals(hGoals) : '<span style="color:var(--border)">-</span>'}</div>
+        <div class="scorers-col">${aGoals.length ? renderGoals(aGoals) : '<span style="color:var(--border)">-</span>'}</div>
       </div>`;
     }
   }
 
   return `<div class="score-card ${isLive?'live-card':''}">
     <div class="score-meta">
-      <span class="bg-group">${groupLabel(e)}</span>
+      <span class="bg-group">${round}</span>
       ${badge}
     </div>
     <div class="score-teams">
       <div class="score-team">
-        <img class="team-logo" src="${home.team.logo||''}" onerror="this.style.display='none'">
-        <div class="team-abbr">${home.team.abbreviation||''}</div>
+        <img class="team-logo" src="${homeLogo}" onerror="this.style.display='none'">
+        <div class="team-abbr">${home.shortName || home.name || ''}</div>
       </div>
       <div class="score-ctr">${scoreHtml}</div>
       <div class="score-team">
-        <img class="team-logo" src="${away.team.logo||''}" onerror="this.style.display='none'">
-        <div class="team-abbr">${away.team.abbreviation||''}</div>
+        <img class="team-logo" src="${awayLogo}" onerror="this.style.display='none'">
+        <div class="team-abbr">${away.shortName || away.name || ''}</div>
       </div>
     </div>
     ${scorersHtml}
@@ -342,30 +276,27 @@ function cardHtml(e) {
 // ===== STANDINGS =====
 async function loadStandings() {
   try {
-    const r = await fetch(`${BASE}/standings`);
+    const r = await fetch(`${FM}/leagues?id=77&ccode3=THA`);
     const d = await r.json();
-    const groups = d.children || [];
+    const tables = d.table?.[0]?.data?.table?.all || d.table?.[0]?.all || [];
+    const groups = d.table || [];
+
     let html = '<div class="groups-grid">';
     groups.forEach(g => {
-      const entries = g.standings?.entries || [];
+      const entries = g.data?.table?.all || g.all || [];
+      const gName = g.data?.leagueName || g.leagueName || g.name || 'กลุ่ม';
+      if (!entries.length) return;
       html += `<div class="group-card">
-        <div class="group-hdr"><div class="group-letter">${g.name||g.abbreviation||''}</div></div>
+        <div class="group-hdr"><div class="group-letter">${gName}</div></div>
         <table class="st-table">
           <thead><tr><th colspan="2">ทีม</th><th>แข่ง</th><th>ชนะ</th><th>แพ้</th><th>แต้ม</th></tr></thead>
           <tbody>`;
-      entries.forEach((en, i) => {
-        const s = {};
-        (en.stats||[]).forEach(x => { s[x.name] = x.value; });
+      entries.forEach((t, i) => {
+        const logo = `https://images.fotmob.com/image_resources/logo/teamlogo/${t.id}_small.png`;
         html += `<tr class="${i<2?'qualify':''}">
-          <td style="width:22px"><span class="rk ${i<2?'top':''}">${i+1}</span></td>
-          <td><div class="tm-cell">
-            <img class="tm-logo" src="${en.team?.logo||''}" onerror="this.style.display='none'">
-            <span>${en.team?.abbreviation||en.team?.shortDisplayName||''}</span>
-          </div></td>
-          <td>${s.gamesPlayed||0}</td>
-          <td class="wc">${s.wins||0}</td>
-          <td class="lc">${s.losses||0}</td>
-          <td class="pts">${s.points||0}</td>
+          <td style="width:22px"><span class="rk ${i<2?'top':''}">${t.idx||i+1}</span></td>
+          <td><div class="tm-cell"><img class="tm-logo" src="${logo}" onerror="this.style.display='none'"><span>${t.shortName||t.name||''}</span></div></td>
+          <td>${t.played||0}</td><td class="wc">${t.wins||0}</td><td class="lc">${t.losses||0}</td><td class="pts">${t.pts||0}</td>
         </tr>`;
       });
       html += `</tbody></table></div>`;
@@ -375,89 +306,44 @@ async function loadStandings() {
   } catch(err) { errBox('standings-content', err.message); }
 }
 
-// ===== SCORERS — ใช้ทั้ง 2 endpoints =====
+// ===== SCORERS =====
 async function loadScorers() {
   try {
-    // Step 1: get all completed match IDs
-    const r = await fetch(`${BASE}/scoreboard`);
+    const r = await fetch(`${FM}/leagues?id=77&ccode3=THA`);
     const d = await r.json();
-    const completedEvents = (d.events||[]).filter(e => e.status.type.completed);
+    const topScorers = d.stats?.seasonTopScorerStats?.topScorers ||
+                       d.topScorers || [];
 
-    // Step 2: fetch summary for each match (parallel, max 20)
-    const scorerMap = {};
-    const assistMap = {};
+    document.getElementById('scorers-tag').textContent = `${topScorers.length} ผู้เล่น`;
 
-    const summaries = await Promise.allSettled(
-      completedEvents.slice(0, 60).map(e =>
-        fetch(`${BASE}/summary?event=${e.id}`).then(r => r.json())
-      )
-    );
-
-    summaries.forEach(res => {
-      if (res.status !== 'fulfilled') return;
-      const data = res.value;
-      const keyEvents = data.keyEvents || data.plays || [];
-
-      keyEvents.forEach(ev => {
-        // goal scorer
-        const isGoal = ev.type?.text === 'Goal' || ev.scoringPlay === true ||
-                       ['Goal','Penalty Goal','Header Goal','Own Goal'].includes(ev.type?.text);
-        if (!isGoal) return;
-
-        const participants = ev.participants || ev.athletes || [];
-        participants.forEach(p => {
-          const role = p.type?.text || p.role || '';
-          const athlete = p.athlete || p;
-          const id = athlete.id || athlete.displayName;
-          if (!id) return;
-          const name = athlete.displayName || athlete.shortName || '';
-          const teamLogo = ev.team?.logo || athlete.team?.logo || '';
-          const teamName = ev.team?.displayName || athlete.team?.displayName || '';
-          const isOG = ev.type?.text === 'Own Goal';
-
-          if (role === 'scorer' || role === 'athlete' || participants.length === 1) {
-            if (isOG) return; // skip own goals for scorer tally
-            if (!scorerMap[id]) scorerMap[id] = { name, teamName, teamLogo, goals: 0, assists: 0 };
-            scorerMap[id].goals++;
-          } else if (role === 'assist' || role === 'assister') {
-            if (!scorerMap[id]) scorerMap[id] = { name, teamName, teamLogo, goals: 0, assists: 0 };
-            scorerMap[id].assists++;
-            assistMap[id] = (assistMap[id]||0) + 1;
-          }
-        });
-      });
-    });
-
-    const sorted = Object.values(scorerMap)
-      .filter(s => s.goals > 0)
-      .sort((a, b) => b.goals - a.goals || b.assists - a.assists)
-      .slice(0, 20);
-
-    document.getElementById('scorers-tag').textContent = `${sorted.length} ผู้เล่น`;
-
-    if (!sorted.length) {
+    if (!topScorers.length) {
+      // fallback: build from match events
       document.getElementById('scorers-content').innerHTML =
-        '<p style="color:var(--muted);text-align:center;padding:40px">ยังไม่มีข้อมูลดาวซัลโว</p>';
+        '<p style="color:var(--muted);text-align:center;padding:40px">กำลังโหลดข้อมูลดาวซัลโว...</p>';
       return;
     }
 
-    const max = sorted[0].goals;
+    const max = topScorers[0]?.goals || topScorers[0]?.statValue || 1;
     const rc = ['gold','silver','bronze'];
     let html = '<div class="scorers-list">';
-    sorted.forEach((s, i) => {
+    topScorers.slice(0,20).forEach((s, i) => {
+      const goals = s.goals || s.statValue || 0;
+      const assists = s.assists || 0;
+      const logo = s.teamImageUrl || `https://images.fotmob.com/image_resources/logo/teamlogo/${s.teamId}_small.png`;
+      const playerImg = s.imageUrl || '';
       html += `<div class="scorer-card">
         <div class="sc-rank ${rc[i]||''}">${i+1}</div>
-        <img class="sc-logo" src="${s.teamLogo}" onerror="this.style.display='none'">
+        <img class="sc-logo" src="${logo}" onerror="this.style.display='none'">
         <div class="sc-info">
-          <div class="sc-name">${s.name}</div>
-          <div class="sc-team">${s.teamName}</div>
-          ${s.assists > 0 ? `<div class="sc-assists">🅰️ ${s.assists} แอสซิสต์</div>` : ''}
-          <div class="sc-bar"><div class="sc-bar-fill" style="width:${(s.goals/max)*100}%"></div></div>
+          <div class="sc-name">${s.name||s.playerName||''}</div>
+          <div class="sc-team">${s.teamName||s.teamShortName||''}</div>
+          ${assists > 0 ? `<div class="sc-assists">🅰️ ${assists} แอสซิสต์</div>` : ''}
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:${(goals/max)*100}%"></div></div>
         </div>
         <div class="sc-right">
-          <div class="sc-gnum">${s.goals}</div>
+          <div class="sc-gnum">${goals}</div>
           <div class="sc-glabel">ประตู</div>
-          ${s.assists > 0 ? `<div class="sc-anum">${s.assists}A</div>` : ''}
+          ${assists > 0 ? `<div class="sc-anum">${assists}A</div>` : ''}
         </div>
       </div>`;
     });
@@ -470,8 +356,7 @@ async function loadAll() {
   const btn = document.getElementById('refresh-btn');
   btn.disabled = true; btn.textContent = '⟳ กำลังโหลด...';
   await Promise.all([loadScores(), loadStandings(), loadScorers()]);
-  document.getElementById('last-update').textContent =
-    `อัพเดท: ${new Date().toLocaleTimeString('th-TH',{timeZone:'Asia/Bangkok'})}`;
+  document.getElementById('last-update').textContent = `อัพเดท: ${timeStr()}`;
   btn.disabled = false; btn.textContent = '⟳ รีเฟรช';
 }
 
