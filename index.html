@@ -174,28 +174,53 @@ const assistCache = {};
 async function fetchSummaryAssists(eventId) {
   if (assistCache[eventId]) return assistCache[eventId];
   try {
-    const r = await fetch(`${BASE}/summary?event=${eventId}`);
+    // Use site.web.api.espn.com for full summary with keyEvents
+    const r = await fetch(`https://site.web.api.espn.com/apis/site/v2/sports/soccer/fifa.world/summary?event=${eventId}`);
     const d = await r.json();
     const map = {};
-    const keyEvents = d.keyEvents || d.plays || [];
+    // keyEvents has goal/assist data with participants
+    const keyEvents = d.keyEvents || [];
     keyEvents.forEach(ev => {
-      const isGoal = ev.scoringPlay === true || ['Goal','Penalty Goal','Header Goal'].includes(ev.type?.text);
+      const isGoal = ev.scoringPlay === true ||
+        ['Goal','Penalty Goal','Header Goal','Penalty - Scored'].includes(ev.type?.text);
       if (!isGoal) return;
-      const participants = ev.participants || ev.athletes || [];
+      const participants = ev.participants || [];
       let scorer = '', assist = '';
       participants.forEach(p => {
-        const role = (p.type?.text || p.role || '').toLowerCase();
-        const name = p.athlete?.shortName || p.athlete?.displayName || p.shortName || p.displayName || '';
-        if (role === 'scorer' || role === 'athlete') scorer = name;
-        else if (role === 'assist' || role === 'assister') assist = name;
+        const role = (p.type?.text || p.type?.abbreviation || '').toLowerCase();
+        const name = p.athlete?.shortName || p.athlete?.displayName || '';
+        if (role === 'scorer' || role === 'g') scorer = name;
+        else if (role === 'assist' || role === 'a') { assist = name; }
       });
-      if (participants.length === 2 && !assist) {
-        assist = participants[1].athlete?.shortName || participants[1].shortName || '';
+      // fallback: if 2 participants and no role detected
+      if (participants.length >= 1 && !scorer) {
+        scorer = participants[0].athlete?.shortName || participants[0].athlete?.displayName || '';
       }
-      const clock = ev.clock?.displayValue || ev.period?.displayValue || '';
-      const key = `${scorer}_${clock}`;
-      if (assist) map[key] = assist;
+      if (participants.length >= 2 && !assist) {
+        assist = participants[1].athlete?.shortName || participants[1].athlete?.displayName || '';
+      }
+      const clock = ev.clock?.displayValue || '';
+      if (scorer) map[scorer + '_' + clock] = assist;
     });
+    // Also check plays array as fallback
+    if (!keyEvents.length) {
+      const plays = d.plays || [];
+      plays.filter(p => p.scoringPlay).forEach(ev => {
+        const participants = ev.participants || ev.athletes || [];
+        let scorer = '', assist = '';
+        participants.forEach(p => {
+          const role = (p.type?.text || p.role || '').toLowerCase();
+          const name = p.athlete?.shortName || p.shortName || '';
+          if (role === 'scorer' || role === 'athlete') scorer = name;
+          else if (role === 'assist') assist = name;
+        });
+        if (participants.length >= 2 && !assist) {
+          assist = participants[1].athlete?.shortName || '';
+        }
+        const clock = ev.clock?.displayValue || '';
+        if (scorer) map[scorer + '_' + clock] = assist;
+      });
+    }
     assistCache[eventId] = map;
     return map;
   } catch { return {}; }
