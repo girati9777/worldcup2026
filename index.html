@@ -143,6 +143,10 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-h
 <script>
 // FotMob World Cup 2026 league ID = 77 (FIFA World Cup)
 const FM = 'https://www.fotmob.com/api';
+const PROXY = 'https://silent-sea-dd8d.girati-9777.workers.dev';
+function proxyFetch(url) {
+  return fetch(`${PROXY}?url=${encodeURIComponent(url)}`);
+}
 
 function showTab(name, btn) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -161,7 +165,7 @@ function timeStr() {
 async function loadScores() {
   try {
     // FotMob league matches: leagueId=77 is FIFA World Cup
-    const r = await fetch(`${FM}/leagues?id=77&ccode3=THA`);
+    const r = await proxyFetch(`${FM}/leagues?id=77&ccode3=THA`);
     const d = await r.json();
 
     const allMatches = [];
@@ -177,7 +181,7 @@ async function loadScores() {
     const detailMap = {};
     await Promise.allSettled(
       toDetail.map(m =>
-        fetch(`${FM}/data/matchDetails?matchId=${m.id}`)
+        proxyFetch(`${FM}/data/matchDetails?matchId=${m.id}`)
           .then(r => r.json())
           .then(d => { detailMap[m.id] = d; })
       )
@@ -276,7 +280,7 @@ function cardHtml(m, detail) {
 // ===== STANDINGS =====
 async function loadStandings() {
   try {
-    const r = await fetch(`${FM}/leagues?id=77&ccode3=THA`);
+    const r = await proxyFetch(`${FM}/leagues?id=77&ccode3=THA`);
     const d = await r.json();
     const tables = d.table?.[0]?.data?.table?.all || d.table?.[0]?.all || [];
     const groups = d.table || [];
@@ -309,7 +313,7 @@ async function loadStandings() {
 // ===== SCORERS =====
 async function loadScorers() {
   try {
-    const r = await fetch(`${FM}/leagues?id=77&ccode3=THA`);
+    const r = await proxyFetch(`${FM}/leagues?id=77&ccode3=THA`);
     const d = await r.json();
     const topScorers = d.stats?.seasonTopScorerStats?.topScorers ||
                        d.topScorers || [];
