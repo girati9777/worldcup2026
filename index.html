@@ -272,20 +272,24 @@ function cardHtml(e) {
     if (goals.length) {
       const hGoals = goals.filter(g => g.team?.id === home.team.id);
       const aGoals = goals.filter(g => g.team?.id === away.team.id);
-      const summaryMap = assistCache[comp.id] || assistCache[e?.id] || {};
+      const eventId = e.id || comp.id;
+      const summaryMap = assistCache[eventId] || {};
       const renderGoals = arr => arr.map(g => {
         const scorer = g.athletesInvolved?.[0]?.shortName || g.athletesInvolved?.[0]?.displayName || '';
-        const min  = g.clock?.displayValue ? g.clock.displayValue + "'" : '';
-        // Try detail assist first, then summary cache
+        const min = g.clock?.displayValue ? g.clock.displayValue + "'" : '';
         let assist = g.athletesInvolved?.[1]?.shortName || g.athletesInvolved?.[1]?.displayName || '';
-        if (!assist) assist = summaryMap[`${scorer}_${min.replace("'","")}`] || summaryMap[`${scorer}_${min}`] || '';
-        const aHtml = assist ? ` <span class="assist">(${assist})</span>` : '';
+        if (!assist) {
+          const minClean = min.replace("'", '');
+          assist = summaryMap[scorer + '_' + minClean] || summaryMap[scorer + '_' + min] || '';
+        }
+        const aHtml = assist ? `<span class="assist"> (${assist})</span>` : '';
         return `<div class="scorer-line"><span class="minute">${min}</span><span>⚽ ${scorer}${aHtml}</span></div>`;
       }).join('');
-      scorersHtml = `<div class="scorers-mini">
-        ${hGoals.length ? renderGoals(hGoals) : ''}
-        ${hGoals.length && aGoals.length ? '<div style="border-top:1px solid var(--border);margin:4px 0"></div>' : ''}
-        ${aGoals.length ? renderGoals(aGoals) : ''}
+      const hHtml = hGoals.length ? renderGoals(hGoals) : '<div style="color:var(--border);font-size:10px">-</div>';
+      const aHtml2 = aGoals.length ? renderGoals(aGoals) : '<div style="color:var(--border);font-size:10px">-</div>';
+      scorersHtml = `<div class="scorers-mini" style="display:grid;grid-template-columns:1fr 1fr;gap:0 8px;margin-top:10px;padding-top:8px;border-top:1px solid var(--border);">
+        <div style="border-right:1px solid var(--border);padding-right:8px;">${hHtml}</div>
+        <div style="padding-left:8px;">${aHtml2}</div>
       </div>`;
     }
   }
