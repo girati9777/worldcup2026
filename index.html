@@ -253,7 +253,9 @@ function cardHtml(m, summary) {
   let scorersHtml = '';
   if ((isDone || isLive) && summary) {
     const keyEvents = summary.keyEvents || [];
-    const goalEvents = keyEvents.filter(e => e.scoringPlay && !e.ownGoal && e.type?.id !== '93'); // exclude own goals
+    const goalEvents = keyEvents.filter(e => 
+      e.scoringPlay === true && e.shootout === false
+    );
 
     if (goalEvents.length) {
       const homeId = String(home.id || home.team?.id || '');
@@ -270,14 +272,15 @@ function cardHtml(m, summary) {
 
       const renderGoals = arr => arr.map(e => {
         const participants = e.participants || [];
-        const scorer = participants.find(p => p.type?.text === 'Scorer') || participants[0];
-        const assistP = participants.find(p => p.type?.text === 'Assist');
+        // ESPN keyEvents: participants[0] = scorer, participants[1] = assist (if any)
+        const scorer = participants[0];
+        const assistP = participants.length > 1 ? participants[1] : null;
         const name = scorer?.athlete?.shortName || scorer?.athlete?.displayName || '';
         const min = e.clock?.displayValue || '';
-        const isPen = e.penaltyKick ? ' (PEN)' : '';
-        const isOG = e.ownGoal ? ' (OG)' : '';
-        const assistHtml = assistP?.athlete?.shortName
-          ? `<span class="assist">🅰️ ${assistP.athlete.shortName}</span>`
+        const isPen = e.penaltyKick ? ' (จุดโทษ)' : '';
+        const isOG = e.ownGoal ? ' (เข้าประตูตัวเอง)' : '';
+        const assistHtml = assistP?.athlete?.displayName
+          ? `<span class="assist">🅰️ ${assistP.athlete.shortName || assistP.athlete.displayName}</span>`
           : '';
         return `<div class="scorer-line"><span class="min">${min}</span><span class="name">⚽ ${name}${isPen}${isOG}</span>${assistHtml}</div>`;
       }).join('');
