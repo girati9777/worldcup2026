@@ -321,33 +321,57 @@ function cardHtml(m, summary) {
 // ===== STANDINGS =====
 async function loadStandings() {
   try {
-    const r = await proxyFetch('standings');
-    const d = await r.json();
-    const groups = d.data?.standings?.[0]?.groups || d.data?.children || [];
+    // ดึงทั้ง standings และ matches เพื่อแยกกลุ่ม
+    const [stR, mR] = await Promise.all([
+      proxyFetch('standings'),
+      proxyFetch('matches')
+    ]);
+    const stData = await stR.json();
+    const mData = await mR.json();
+
+    const allTeams = stData.data?.standings?.[0]?.table || [];
+    const matches = mData.data?.matches || [];
+
+    // สร้าง map ทีม → กลุ่ม จาก matches
+    const teamGroup = {};
+    matches.forEach(m => {
+      if (m.group) {
+        if (m.homeTeam?.id) teamGroup[m.homeTeam.id] = m.group.replace('GROUP_','');
+        if (m.awayTeam?.id) teamGroup[m.awayTeam.id] = m.group.replace('GROUP_','');
+      }
+    });
+
+    // จัดทีมเข้ากลุ่ม
+    const groups = {};
+    allTeams.forEach(t => {
+      const grp = teamGroup[t.team?.id] || '?';
+      if (!groups[grp]) groups[grp] = [];
+      groups[grp].push(t);
+    });
+
+    // เรียงกลุ่ม A-L
+    const sortedGroups = Object.keys(groups).sort();
 
     let html = '<div class="groups-grid">';
-    groups.forEach(g => {
-      const entries = g.standings?.entries || g.entries || [];
-      const gName = g.name || g.abbreviation || 'กลุ่ม';
-      if (!entries.length) return;
+    sortedGroups.forEach(grp => {
+      if (grp === '?') return;
+      const entries = groups[grp].sort((a,b) => b.points - a.points || b.goalDifference - a.goalDifference);
       html += `<div class="group-card">
-        <div class="group-hdr"><div class="group-letter">${gName}</div></div>
+        <div class="group-hdr"><div class="group-letter">กลุ่ม ${grp}</div></div>
         <table class="st-table">
-          <thead><tr><th colspan="2">ทีม</th><th>แข่ง</th><th>ชนะ</th><th>แพ้</th><th>แต้ม</th></tr></thead>
+          <thead><tr><th colspan="2">ทีม</th><th>แข่ง</th><th>ชนะ</th><th>แพ้</th><th>ผต.</th><th>แต้ม</th></tr></thead>
           <tbody>`;
       entries.forEach((t, i) => {
         const team = t.team || {};
-        const stats = t.stats || [];
-        const getStat = (name) => stats.find(s => s.name === name)?.value ?? 0;
-        const pts = getStat('points');
-        const played = getStat('gamesPlayed');
-        const wins = getStat('wins');
-        const losses = getStat('losses');
-        const logo = team.logo || '';
+        const logo = team.crest || '';
         html += `<tr class="${i<2?'qualify':''}">
           <td style="width:22px"><span class="rk ${i<2?'top':''}">${i+1}</span></td>
-          <td><div class="tm-cell"><img class="tm-logo" src="${logo}" onerror="this.style.display='none'"><span>${team.shortDisplayName||team.name||''}</span></div></td>
-          <td>${played}</td><td class="wc">${wins}</td><td class="lc">${losses}</td><td class="pts">${pts}</td>
+          <td><div class="tm-cell"><img class="tm-logo" src="${logo}" onerror="this.style.display='none'"><span>${team.shortName||team.name||''}</span></div></td>
+          <td>${t.playedGames||0}</td>
+          <td class="wc">${t.won||0}</td>
+          <td class="lc">${t.lost||0}</td>
+          <td>${t.goalDifference>0?'+':''}${t.goalDifference||0}</td>
+          <td class="pts">${t.points||0}</td>
         </tr>`;
       });
       html += `</tbody></table></div>`;
